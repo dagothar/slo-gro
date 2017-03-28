@@ -32,7 +32,7 @@ $(document).ready(function() {
     $('input[name=main-color]').val('#00ff00');
     $('input[name=trail-color]').val('#000000');
     $('.slider-radius').val(100);
-    $('.slider-attraction').val(0);
+    $('.slider-attraction').val(100);
     
     $('.button-start').show();
     $('.button-stop').hide();
@@ -134,27 +134,41 @@ $(document).ready(function() {
   });
   
   
-  /*var paint = true;
+  var paint = true;
   var drag = false;
-  $('.board').mousedown(function(e) {
-    var pos = langton.getCellPos(canvas, getMousePos(e, canvas));
-    paint = !langton.getCell(pos);
-    langton.setCell(pos, paint);
-    langton.render(canvas, true);
+  $('#overlay').mousedown(function(e) {
+    var pos = game.getCellPos(getMousePos(e, canvas));
+    console.log(pos);
+    paint = 1 - game.getCell(pos);
+    game.setCell(pos, paint);
+    pos.x += 1;
+    game.setCell(pos, paint);
+    pos.y += 1;
+    game.setCell(pos, paint);
+    pos.x -= 1;
+    game.setCell(pos, paint);
+    //game.render(canvas);
     
     $(this).bind('mousemove', function(e) {
-      var pos = langton.getCellPos(canvas, getMousePos(e, canvas));
-      langton.setCell(pos, paint);
-      langton.render(canvas, pos);
-      //console.log(pos, paint);
+      var pos = game.getCellPos(getMousePos(e, canvas));
+      game.setCell(pos, paint);
+      pos.x += 1;
+      game.setCell(pos, paint);
+      pos.y += 1;
+      game.setCell(pos, paint);
+      pos.x -= 1;
+      game.setCell(pos, paint);
+      //game.render(canvas);
     });
-  });*/
+  });
   
-  $('.board').mouseup(function(e) {
+  
+  $('#overlay').mouseup(function(e) {
     $(this).unbind('mousemove');
   });
   
-  $('.board').mouseout(function(e) {
+  
+  $('#overlay').mouseout(function(e) {
     $(this).unbind('mousemove');
   });
   

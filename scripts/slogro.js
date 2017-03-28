@@ -155,13 +155,27 @@ var Slogro = (function() {
     };
     
     
+    this.getCellPos = function(mousePos) {
+      
+      return {
+        x: Math.floor(mousePos.x),
+        y: Math.floor(mousePos.y)
+      };
+    };
+    
+    
     this.getCell = function(pos) {
       return data.get(pos.x, pos.y);
     };
     
     
     this.setCell = function(pos, value) {
-      data.set(pos.x, pos.y, value);
+      try {
+        data.set(pos.x, pos.y, value);
+      } catch (e) {};
+      
+      ctx.fillStyle =  this.Colors[value];
+      ctx.fillRect(pos.x, pos.y, 1, 1);
     };
   };
   
