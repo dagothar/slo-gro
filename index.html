@@ -21,9 +21,31 @@
   <div class="container">
     <div class="row">
       
-      <div class="col-md-10">
-        <canvas class="board" width="600" height="600"></canvas>
+      <div class="col-md-8">
+        <div class="boards">
+          <canvas id="board" width="600" height="600"></canvas>
+          <canvas id="overlay" width="600" height="600"></canvas>
+        </div>
       </div>
+      
+      
+      <div class="col-md-2">
+        
+        <!-- RESULTS -->
+        <div class="panel panel-default">
+          
+          <div class="panel-heading">Results</div>
+          
+          <div class="panel-body">
+            <p>Launched: <span id="launched" class="pull-right text-danger">0</span></p>
+            <p>Settled: <span id="settled" class="pull-right text-primary">0</span></p>
+            <p>Area: <span id="area" class="pull-right text-primary">0</span></p>
+          </div>
+          
+        </div>
+        
+      </div>
+      
       
       <div class="col-md-2">
         
@@ -39,7 +61,7 @@
               <button type="button" class="button-reset btn btn-default btn-block">Reset <span class="glyphicon glyphicon-off"></span></button>
               <button type="button" class="button-start btn btn-default btn-block">Start <span class="glyphicon glyphicon-play"></span></button>
               <button type="button" class="button-stop btn btn-default btn-block">Pause <span class="glyphicon glyphicon-pause"></span></button>
-              <button type="button" class="button-step btn btn-default btn-block">Step <span class="glyphicon glyphicon-step-forward"></span></button>
+              <!--button type="button" class="button-step btn btn-default btn-block">Step <span class="glyphicon glyphicon-step-forward"></span></button-->
             </div>
             
             <!-- size slider -->
@@ -68,7 +90,7 @@
             </div>
             
              <div class="form-group">
-              <button type="button" class="button-colors btn btn-default btn-block">Clear to colors <span class="glyphicon glyphicon-erase"></span></button>
+              <button type="button" class="button-colors btn btn-default btn-block">Clear board <span class="glyphicon glyphicon-erase"></span></button>
             </div>
             
           </div>

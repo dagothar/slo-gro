@@ -1,3 +1,15 @@
 .navbar-brand { float: None; }
 
 input { width: 100%; }
+
+#board {
+  position:absolute;
+  left:0px;
+  top:0px;
+}
+
+#overlay {
+  position:absolute;
+  left:0px;
+  top:0px;
+}
