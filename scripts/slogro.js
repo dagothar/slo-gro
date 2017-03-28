@@ -26,7 +26,20 @@ var Slogro = (function() {
     
     
     this.getRadius = function() { return radius; };
-    this.setRadius = function(r) { radius = r; radius2 = r*r; };
+    
+    
+    this.setRadius = function(r) {
+      radius = r; radius2 = r*r;
+      
+      /* draw circle */
+      ctx1.clearRect(0, 0, width, height);
+      ctx1.beginPath();
+      ctx1.strokeStyle = this.Colors[1];
+      ctx1.arc(width/2, height/2, radius, 0, 2 * Math.PI);
+      ctx1.stroke();
+    };
+    
+    
     this.getAttraction = function() { return attraction; };
     this.setAttraction = function(a) { attraction = a; };
     this.setColor = function(n, color) { this.Colors[n] = color; };

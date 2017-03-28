@@ -48,7 +48,8 @@ $(document).ready(function() {
     
     $('#launched').text(game.getTried());
     $('#settled').text(game.getSettled());
-    $('#area').text(Math.round(Math.PI * radius * radius / 4.0));
+    $('#radius').text(Math.round(radius));
+    $('#area').text(Math.round(Math.PI * radius * radius));
   };
   
   
@@ -59,7 +60,8 @@ $(document).ready(function() {
     game.addParticle();
     $('#launched').text(game.getTried());
     $('#settled').text(game.getSettled());
-    $('#area').text(Math.round(Math.PI * radius * radius / 4.0));
+    $('#radius').text(Math.round(radius));
+    $('#area').text(Math.round(Math.PI * radius * radius));
   };
   
   
@@ -94,6 +96,7 @@ $(document).ready(function() {
   $('.slider-radius').on('input change', function() {
     radius = 0.01 * max_radius * $('.slider-radius').val();
     game.setRadius(radius);
+    $('#radius').text(Math.round(radius));
   });
   
   
