@@ -1,77 +1,124 @@
+function getMousePos(e, client) {
+  var rect = client.getBoundingClientRect();
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+};
+
+
 $(document).ready(function() {
   
-  var langton = new Langton(200, 150);
-  
   var canvas = $('.board').get(0);
-  langton.render(canvas);
+  var width = canvas.width;
+  var height = canvas.height;
+  var max_radius = width < height ? width/2-10 : height/2-10;
+  var radius = max_radius;
+  var Cattr = 0.005;
   
+  var game = undefined;
   var stepTimer = undefined;
   var running = false;
   var iteration = 0;
-  var speed = $('.langton-speed').val();
   
-  function calculateInterval(s) {
-    return 100 / Math.pow(2.5, s);
+  
+  function reset() {
+    clearInterval(stepTimer);
+    running = false;
+    iteration = 0;
+    
+    $('.button-start').show();
+    $('.button-stop').hide();
+    
+    game = new Slogro(canvas, radius);
+    radius = 0.01 * max_radius * $('.slider-radius').val();
+    game.setRadius(radius);
+    game.setAttraction(Cattr * $('.slider-attraction').val());
+    game.setColor(0, $('input[name=board-color]').val());
+    game.setColor(1, $('input[name=main-color]').val());
+    game.setColor(2, $('input[name=trail-color]').val());
+    game.render(canvas);
   };
   
-  var interval = calculateInterval(speed);
+  
+  reset();
+  
   
   function step() {
-    langton.step();
-    langton.render(canvas, false);
-    ++iteration;
-    $('.langton-iteration').text(iteration);
+    game.addParticle();
   };
   
-  $('.langton-step').click(function() {
+  
+  $('.button-step').click(function() {
     step();
   });
   
-  $('.langton-reset').click(function() {
-    langton.clear(canvas);
-    langton.render(canvas, true);
-    iteration = 0;
-    $('.langton-iteration').text(iteration);
-  });
   
-  $('.langton-start-stop').click(function() {
+  $('.button-start').click(function() {
+    $(this).hide();
+    $('.button-stop').show();
     if (!running) {
-      stepTimer = setInterval(step, interval);
+      stepTimer = setInterval(step, 10);
       running = true;
-    } else {
-      clearInterval(stepTimer);
-      running = false;
     }
   });
   
-  $('.langton-speed').on('input', function() {
-    $(this).trigger('change');
+  
+  $('.button-stop').click(function() {
+    $(this).hide();
+    $('.button-start').show();
+    clearInterval(stepTimer);
+    running = false;
   });
   
-  $('.langton-speed').change(function() {
-    var old_speed = speed;
-    speed = $(this).val();
-    
-    if (speed != old_speed) {
-      interval = calculateInterval(speed);
-      
-      if (running) {
-        clearInterval(stepTimer);
-        stepTimer = setInterval(step, interval);
-      } 
-    }
-
+  
+  $('.button-reset').click(function() {
+    reset();
   });
   
-  function getMousePos(e, client) {
-    var rect = client.getBoundingClientRect();
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    };
-  };
   
-  var paint = true;
+  $('.slider-radius').change(function() {
+    radius = 0.01 * max_radius * $('.slider-radius').val();
+    game.setRadius(radius);
+    game.render();
+  });
+  
+  
+  $('.slider-attraction').change(function() {
+    game.setAttraction(Cattr * $(this).val());
+  });
+  
+  
+  $('input[name=board-color]').change(function() {
+    var color = $(this).val();
+    console.log(color);
+    game.setColor(0, color);
+    game.render(canvas);
+  });
+  
+  
+  $('input[name=main-color]').change(function(color) {
+    var color = $(this).val();
+    console.log(color);
+    game.setColor(1, color);
+    //game.render(canvas);
+  });
+  
+  
+  $('input[name=trail-color]').change(function(color) {
+    var color = $(this).val();
+    console.log(color);
+    game.setColor(2, color);
+    //game.render(canvas);
+  });
+  
+  
+  $('.button-colors').click(function() {
+    game.render(canvas);
+  });
+  
+  
+  /*var paint = true;
   var drag = false;
   $('.board').mousedown(function(e) {
     var pos = langton.getCellPos(canvas, getMousePos(e, canvas));
@@ -85,7 +132,7 @@ $(document).ready(function() {
       langton.render(canvas, pos);
       //console.log(pos, paint);
     });
-  });
+  });*/
   
   $('.board').mouseup(function(e) {
     $(this).unbind('mousemove');

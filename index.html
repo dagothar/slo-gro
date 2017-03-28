@@ -22,7 +22,7 @@
     <div class="row">
       
       <div class="col-md-10">
-        <canvas class="board" width="800" height="600"></canvas>
+        <canvas class="board" width="600" height="600"></canvas>
       </div>
       
       <div class="col-md-2">
@@ -39,12 +39,13 @@
               <button type="button" class="button-reset btn btn-default btn-block">Reset <span class="glyphicon glyphicon-off"></span></button>
               <button type="button" class="button-start btn btn-default btn-block">Start <span class="glyphicon glyphicon-play"></span></button>
               <button type="button" class="button-stop btn btn-default btn-block">Pause <span class="glyphicon glyphicon-pause"></span></button>
+              <button type="button" class="button-step btn btn-default btn-block">Step <span class="glyphicon glyphicon-step-forward"></span></button>
             </div>
             
-            <!-- speed slider -->
+            <!-- size slider -->
             <div class="form-group">
-              <label>Speed:</label>
-              <input type="range" min="-2" val="0" max="3" class="slider-speed"/>
+              <label>Radius:</label>
+              <input type="range" min="0" val="100" max="100" class="slider-radius"/>
             </div>
             
             <!-- attraction slider -->
@@ -53,16 +54,10 @@
               <input type="range" min="0" val="0" max="10" class="slider-attraction"/>
             </div>
             
-            <!-- size slider -->
-            <div class="form-group">
-              <label>Radius:</label>
-              <input type="range" min="0" val="200" max="400" class="slider-radius"/>
-            </div>
-            
             <!-- color pickers -->
             <div class="form-group">
               <label>Board color:</label>
-              <input type="color" name="board-color" value="#000000"/>
+              <input type="color" name="board-color" value="#ffffff"/>
             </div>
             <div class="form-group">
               <label>Sediment color:</label>
@@ -70,6 +65,10 @@
             </div><div class="form-group">
               <label>Trail color:</label>
               <input type="color" name="trail-color" value="#ffff00"/>
+            </div>
+            
+             <div class="form-group">
+              <button type="button" class="button-colors btn btn-default btn-block">Clear to colors <span class="glyphicon glyphicon-erase"></span></button>
             </div>
             
           </div>

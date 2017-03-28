@@ -1,63 +1,142 @@
 var Slogro = (function() {
   
-  function Slogro(width, height) {
+  function Slogro(canvas, radius) {
     
-    var width = width, height = height;
+    /* setup */
+    var canvas = canvas;
+    var ctx = canvas.getContext('2d');
+    var width = canvas.width, height = canvas.height;
+    var cx = width/2, cy = height/2;
+    var radius = radius, radius2 = radius*radius;
     var data = new Array2(width, height, 0);
-    var pos = { x: Math.floor(width/2), y: Math.floor(height/3) };
-    var dir = 0;
+    data.set(width/2, height/2, 1);
+    
+    var attraction = 0.0;
+    
+    
+    var x = 10, y = 10;
+    
     
     this.Colors = {
-      0: '#ffffff',
-      1: '#000000',
-      2: '#ff0000'
+      0: 'rgb(255, 255, 255)',   // background
+      1: 'rgb(0, 255, 0)',      // tree
+      2: 'rgb(255, 0, 0)'   // trail
     };
     
-    this.clear = function(canvas) {
-      data.apply(function(i, j, v) {
-        return 0;
-      });
-    };
     
-    this.step = function() {
+    this.getRadius = function() { return radius; };
+    this.setRadius = function(r) { radius = r; radius2 = r*r; };
+    this.getAttraction = function() { return attraction; };
+    this.setAttraction = function(a) { attraction = a; };
+    this.setColor = function(n, color) { this.Colors[n] = color; };
+    
+    
+    var neighbourhood = [
+      [ -1, -1 ], [ 0, -1 ], [ 1, -1 ],
+      [ -1, 0 ],             [ 1, 0 ],
+      [ -1, 1 ],  [ 0, 1 ],  [ 1, 1 ]
+    ];
+    
+    
+    function isNeighbourSettled(m, n) {
+      for (var i = 0; i < neighbourhood.length; ++i) {
+        if (data.get(m+neighbourhood[i][0], n+neighbourhood[i][1]) == 1) return true;
+      }
       
+      return false;
+    };
+    
+    
+    this.step = function(canvas) {
+      /* calculate displacement */
+      var theta = 2 * Math.PI * Math.random();
+      var dx = Math.sin(theta); // (0.5+0.5*Math.random()) * Math.sin(theta);
+      var dy = Math.cos(theta); // (0.5+0.5*Math.random()) * Math.cos(theta);
+      
+      /* add attraction towards center */
+      theta = Math.atan2(y-cy, x-cx);
+      dx += -attraction * Math.cos(theta);
+      dy += -attraction * Math.sin(theta);
+      
+      /* calculate new coordinates */
+      x += dx;
+      y += dy;
+      
+      //console.log(x, y, radius);
+      
+      /* check if coordinates exceed the circle size */
+      var rx = (x - cx), ry = (y - cy);
+      if (rx*rx + ry*ry > radius2) return -1;
+      
+      var Dx = Math.floor(x);
+      var Dy = Math.floor(y);
+      
+      /* check if coordinates exceed the board size */
+      //if (Dx < 0 || Dy < 0 || Dx >= width || Dy >= height) return -1;
+      
+      /* check if any neighbouring pixel is settled */
+      if (isNeighbourSettled(Dx, Dy)) {
+        data.set(Dx, Dy, 1);    // add tree part
+        ctx.fillStyle =  this.Colors[1];
+        ctx.fillRect(x, y, 1, 1);
+        return 1;
+      } else {      
+        data.set(Dx, Dy, 2);    // add trail
+        ctx.fillStyle =  this.Colors[2];
+        ctx.fillRect(x, y, 1, 1);
+        return 0;
+      }
+    };
+    
+    
+    this.addParticle = function() {
+      /* place particle randomly around the circle */
+      var theta = 2 * Math.PI * Math.random();
+      x = cx + radius * Math.sin(theta);
+      y = cy + radius * Math.cos(theta);
+      
+      console.log(x, y, theta);
+      
+      var status = 0;
+      var iter = 0;
+      do {
+        status = this.step();
+        if (iter > 10000) status = -1;
+      } while (status == 0);
+      
+      /* draw circle */
+      ctx.beginPath();
+      ctx.strokeStyle = this.Colors[1];
+      ctx.arc(width/2, height/2, radius, 0, 2 * Math.PI);
+      ctx.stroke();
     };
     
     
     this.render = function(canvas) {
       
-      var dx = 1;
-      var dy = 1;
-      var ctx = canvas.getContext('2d');
-      
-      for (var x = x1; x <= x2; ++x) { 
-        for (var y = y1; y <= y2; ++y) {
+      /* draw cells */
+      for (var x = 0; x < width; ++x) { 
+        for (var y = 0; y < height; ++y) {
           ctx.fillStyle =  this.Colors[data.get(x, y)];
-          ctx.fillRect(x * dx, y * dy, dx, dy);
+          ctx.fillRect(x, y, 1, 1);
         }
       }
       
-      ctx.fillStyle =  this.Colors[2];
-      ctx.fillRect(pos.x * dx, pos.y * dy, dx, dy);
+      /* draw circle */
+      ctx.beginPath();
+      ctx.strokeStyle = this.Colors[1];
+      ctx.arc(width/2, height/2, radius, 0, 2 * Math.PI);
+      ctx.stroke();
     };
     
     
-    this.getCellPos = function(canvas, mousePos) {
-      
-      return {
-        x: Math.floor(mousePos.x),
-        y: Math.floor(mousePos.y)
-      };
-    };
-    
-
     this.getCell = function(pos) {
-      return data.get(pos.x, pos.y) == 1;
+      return data.get(pos.x, pos.y);
     };
     
     
     this.setCell = function(pos, value) {
-      data.set(pos.x, pos.y, value ? 1 : 0);
+      data.set(pos.x, pos.y, value);
     };
   };
   
