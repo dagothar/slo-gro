@@ -1,0 +1,94 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>SLO-GRO</title>
+  
+  <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="vendor/spectrum/spectrum.css"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+</head>
+
+<body>
+  <div class="header">
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<a class="navbar-brand text-center center-block" href="#">SLO-GRO</a>
+			</div>
+		</nav>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-md-10">
+        <canvas class="board" width="800" height="600"></canvas>
+      </div>
+      
+      <div class="col-md-2">
+        
+        <!-- CONTROLS -->
+        <div class="panel panel-default">
+          
+          <div class="panel-heading">Controls</div>
+          
+          <div class="panel-body">
+            
+            <!-- buttons -->
+            <div class="form-group">
+              <button type="button" class="button-reset btn btn-default btn-block">Reset <span class="glyphicon glyphicon-off"></span></button>
+              <button type="button" class="button-start btn btn-default btn-block">Start <span class="glyphicon glyphicon-play"></span></button>
+              <button type="button" class="button-stop btn btn-default btn-block">Pause <span class="glyphicon glyphicon-pause"></span></button>
+            </div>
+            
+            <!-- speed slider -->
+            <div class="form-group">
+              <label>Speed:</label>
+              <input type="range" min="-2" val="0" max="3" class="slider-speed"/>
+            </div>
+            
+            <!-- attraction slider -->
+            <div class="form-group">
+              <label>Attraction:</label>
+              <input type="range" min="0" val="0" max="10" class="slider-attraction"/>
+            </div>
+            
+            <!-- size slider -->
+            <div class="form-group">
+              <label>Radius:</label>
+              <input type="range" min="0" val="200" max="400" class="slider-radius"/>
+            </div>
+            
+            <!-- color pickers -->
+            <div class="form-group">
+              <label>Board color:</label>
+              <input type="color" name="board-color" value="#000000"/>
+            </div>
+            <div class="form-group">
+              <label>Sediment color:</label>
+              <input type="color" name="main-color" value="#00ff00"/>
+            </div><div class="form-group">
+              <label>Trail color:</label>
+              <input type="color" name="trail-color" value="#ffff00"/>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="footer">
+  </div>
+  
+  <script src="vendor/jquery/jquery-3.2.0.min.js"></script>
+  <script src="vendor/spectrum/spectrum.js"></script>
+  <script src="scripts/array2.js"></script>
+  <script src="scripts/slogro.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+
+</html>
