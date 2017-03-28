@@ -74,7 +74,7 @@ $(document).ready(function() {
     $(this).hide();
     $('.button-stop').show();
     if (!running) {
-      stepTimer = setInterval(step, 10);
+      stepTimer = setInterval(step, 1);
       running = true;
     }
   });
