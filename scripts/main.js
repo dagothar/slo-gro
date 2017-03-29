@@ -15,7 +15,8 @@ $(document).ready(function() {
   var height = canvas.height;
   var max_radius = width < height ? width/2-10 : height/2-10;
   var radius = max_radius;
-  var Cattr = 0.1;
+  var Cattr = 0.005;
+  var attraction = 0.0;
   
   var game = undefined;
   var stepTimer = undefined;
@@ -39,6 +40,7 @@ $(document).ready(function() {
     
     game = new Slogro(canvas, overlay, radius);
     radius = 0.01 * max_radius * $('.slider-radius').val();
+    attraction = Cattr * $('.slider-attraction').val();
     game.setRadius(radius);
     game.setAttraction(Cattr * $('.slider-attraction').val());
     game.setColor(0, $('input[name=board-color]').val());
@@ -50,6 +52,7 @@ $(document).ready(function() {
     $('#settled').text(game.getSettled());
     $('#radius').text(Math.round(radius));
     $('#area').text(Math.round(Math.PI * radius * radius));
+    $('#attraction').text(parseFloat(attraction).toFixed(3));
   };
   
   
@@ -100,8 +103,10 @@ $(document).ready(function() {
   });
   
   
-  $('.slider-attraction').change(function() {
-    game.setAttraction(Cattr * $(this).val());
+  $('.slider-attraction').on('input change ', function() {
+    attraction = Cattr * $(this).val();
+    game.setAttraction(attraction);
+    $('#attraction').text(parseFloat(attraction).toFixed(3));
   });
   
   

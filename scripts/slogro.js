@@ -178,6 +178,11 @@ var Slogro = (function() {
       
       ctx.fillStyle =  this.Colors[value];
       ctx.fillRect(pos.x, pos.y, 1, 1);
+      ctx1.drawImage(canvas, 0, 0);
+      ctx1.beginPath();
+      ctx1.strokeStyle = this.Colors[1];
+      ctx1.arc(width/2, height/2, radius, 0, 2 * Math.PI);
+      ctx1.stroke();
     };
   };
   
