@@ -128,7 +128,8 @@ var Slogro = (function() {
       } while (status == 0);
       
       /* draw circle */
-      ctx1.clearRect(0, 0, width, height);
+      //ctx1.clearRect(0, 0, width, height);
+      ctx1.drawImage(canvas, 0, 0);
       ctx1.beginPath();
       ctx1.strokeStyle = this.Colors[1];
       ctx1.arc(width/2, height/2, radius, 0, 2 * Math.PI);
@@ -147,7 +148,8 @@ var Slogro = (function() {
       }
       
       /* draw circle */
-      ctx1.clearRect(0, 0, width, height);
+      //ctx1.clearRect(0, 0, width, height);
+      ctx1.drawImage(canvas, 0, 0);
       ctx1.beginPath();
       ctx1.strokeStyle = this.Colors[1];
       ctx1.arc(width/2, height/2, radius, 0, 2 * Math.PI);
